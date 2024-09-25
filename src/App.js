@@ -14,7 +14,7 @@ export const UserContext = createContext({});
 function App() {
   const [userAuth, setUserAuth] = useState({});
   return (
-  <UserContext.Provider value={{userAuth,setUserAuth}}>
+  <UserContext.Provider value={{userAuth, setUserAuth}}>
       <Router>
       <div className="flex flex-col min-h-screen">
         <Navbar />

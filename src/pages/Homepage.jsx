@@ -15,7 +15,7 @@ const Homepage = () => {
 
   const getCities = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/v1/cities');
+      const response = await axios.get('http://localhost:5000/api/v1/airports');
       const citiesData = response.data.data.map((city) => ({
         value: city.id, // City ID as value
         label: city.name, // City name as label
@@ -27,7 +27,7 @@ const Homepage = () => {
     }
   };
 
-  const handleSearchFlights = (e) => {
+  const handleSearchFlights = async (e) => {
     e.preventDefault();
     navigate('/flights', {
       state: {
