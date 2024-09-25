@@ -1,18 +1,15 @@
-// src/components/Homepage.js
 import React, { useState } from 'react';
 import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-
 const Homepage = () => {
-  const [origin, setOrigin] = useState(null);
-  const [destination, setDestination] = useState(null);
+  const [originId, setOriginId] = useState(null);
+  const [destinationId, setDestinationId] = useState(null);
   const [departureDate, setDepartureDate] = useState('');
   const [travelClass, setTravelClass] = useState('economy');
   const [passengers, setPassengers] = useState(1);
   const [cities, setCities] = useState([]); // State to store cities
-
 
   const navigate = useNavigate();
 
@@ -20,8 +17,8 @@ const Homepage = () => {
     try {
       const response = await axios.get('http://localhost:5000/api/v1/cities');
       const citiesData = response.data.data.map((city) => ({
-        value: city.id,
-        label: city.name,
+        value: city.id, // City ID as value
+        label: city.name, // City name as label
       }));
       setCities(citiesData); // Set the mapped cities to state
       console.log(cities);
@@ -34,8 +31,8 @@ const Homepage = () => {
     e.preventDefault();
     navigate('/flights', {
       state: {
-        origin: origin?.label,
-        destination: destination?.label,
+        originId: originId, // Now storing city ID
+        destinationId: destinationId, // Now storing city ID
         departureDate,
         travelClass,
         passengers,
@@ -56,8 +53,8 @@ const Homepage = () => {
                 options={cities}
                 className="w-full"
                 placeholder="Search or select origin city"
-                value={origin}
-                onChange={setOrigin}
+                value={originId ? cities.find(city => city.value === originId) : null}
+                onChange={(selectedOption) => setOriginId(selectedOption.value)} // Setting the city ID
                 onMenuOpen={getCities}
               />
             </div>
@@ -68,8 +65,8 @@ const Homepage = () => {
                 options={cities}
                 className="w-full"
                 placeholder="Search or select destination city"
-                value={destination}
-                onChange={setDestination}
+                value={destinationId ? cities.find(city => city.value === destinationId) : null}
+                onChange={(selectedOption) => setDestinationId(selectedOption.value)} // Setting the city ID
               />
             </div>
           </div>
@@ -84,7 +81,6 @@ const Homepage = () => {
                 onChange={(e) => setDepartureDate(e.target.value)}
               />
             </div>
-            
           </div>
           <div className="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0">
             <div className="flex-1">
