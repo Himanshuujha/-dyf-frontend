@@ -29,6 +29,14 @@ const Homepage = () => {
 
   const handleSearchFlights = async (e) => {
     e.preventDefault();
+    console.log(departureDate);
+    const response = await axios.post('http://localhost:5000/api/v1/flights',{
+          arrivalAirportId: destinationId,
+          departureAirportId: originId,
+          departureDate: departureDate,
+          noOfPassengers: passengers
+    });
+  console.log(response.data.data);
     navigate('/flights', {
       state: {
         originId: originId, // Now storing city ID
